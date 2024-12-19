@@ -221,9 +221,9 @@ class SkinSelectionLayer extends Layer {
 		ctx.fill();
 		ctx.stroke();
 		
-		//DrawText(this.title, this.x + 16, this.y + 16, 14);
+		DrawText(this.title, this.x + 16, this.y + 16, 14);
 		
-		DrawText('Game paused, just press Enter again to resume the game.', this.x + 14, this.y + 16 + 14 + 16 + 14, 14);
+		DrawText('The Game is paused, just press Enter again to resume the game.', this.x + 14, this.y + 16 + 14 + 16 + 14, 14);
 		
 		//this.button1.Draw();
 		//this.button2.Draw();
@@ -299,7 +299,7 @@ class SnowLayer extends Layer {
 	
 	minDist = 250;
 	
-	//maxDetectDistance = this.minDist / 2;
+	maxDetectDistance = this.minDist / 2; // idk how but DrawNearestCircle works with it and render circle correctly.
 	
 	mouseX = -this.minDist;
 	mouseY = -this.minDist;

@@ -407,7 +407,7 @@ class SnowLayer extends Layer {
                 this.resetFlake(flake);
             }
 			
-			DrawImage(`/assets/images/Snow/Snow_${flake.textureId}.png`, flake.x, flake.y, flake.opacity);
+			DrawImage(`Snow_${flake.textureId}.png`, flake.x, flake.y, flake.opacity);
         }
     }
 }

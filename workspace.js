@@ -282,8 +282,11 @@ class SnowIdleLayer extends Layer {
             if (flake.y >= canvas.height || flake.y <= 0 || flake.x >= canvas.width || flake.x <= 0) {
                 this.resetFlake(flake);
             }
-			
-			DrawImage(`Snow_${flake.textureId}.png`, flake.x, flake.y, flake.opacity);
+			if(flake.textureId == 1) DrawImage(`https://i.ibb.co/zNmCsZd/Snow-1.png`, flake.x, flake.y, flake.opacity);
+
+		if(flake.textureId == 2) DrawImage(`https://i.ibb.co/GkSF4Yx/Snow-2.png`, flake.x, flake.y, flake.opacity);
+
+		if(flake.textureId == 3) DrawImage(`https://i.ibb.co/j3bh0DB/Snow-3.png`, flake.x, flake.y, flake.opacity);
         }
     }
 }
@@ -407,7 +410,11 @@ class SnowLayer extends Layer {
                 this.resetFlake(flake);
             }
 			
-			DrawImage(`Snow_${flake.textureId}.png`, flake.x, flake.y, flake.opacity);
+			if(flake.textureId == 1) DrawImage(`https://i.ibb.co/zNmCsZd/Snow-1.png`, flake.x, flake.y, flake.opacity);
+
+		if(flake.textureId == 2) DrawImage(`https://i.ibb.co/GkSF4Yx/Snow-2.png`, flake.x, flake.y, flake.opacity);
+
+		if(flake.textureId == 3) DrawImage(`https://i.ibb.co/j3bh0DB/Snow-3.png`, flake.x, flake.y, flake.opacity);
         }
     }
 }

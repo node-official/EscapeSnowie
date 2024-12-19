@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+:root {
+    color-scheme: dark;
+
+    --menico-ui--background: #0f0f0f; /* #0f0f0f */
+    --menico-ui--text: #ececec;
+
+    --menico-ui--accent: #257f5f;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+}
+
+html {
+    font-size: 0;
+}
+
+html {
+    text-rendering: optimizeLegibility;
+}
+
+body, #rootLayout {
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--menico-ui--background);
+    color: var(--menico-ui--text);
+}
+
+#rootLayout {}
+
+.iSnowie {
+	position: absolute;
+	
+	inset: 0;
+	
+    width: calc(100% - 500px);
+    height: 100%;
+	
+	/*pointer-events: none;*/
+	
+	cursor: crosshair;
+}

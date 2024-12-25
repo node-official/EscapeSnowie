@@ -1,14 +1,11 @@
 
 Escape Snowie!
 
-Latest release: 1.0.0
-Developers: Node & Minley (concept development)
+Latest release: 1.0.3
+Developers: Node & Minley
 
-Change log: https://localhost.ru/manual/1.0.0/Changes.txt
-
-Discord: https://discord.com/LINK_IS_NOT_CREATED
-Telegram: https://t.me/node_off
-Twitch: https://twitch.tv/node_off
+Me Telegram: https://t.me/node_off
+Me Twitch: https://twitch.tv/node_off
 
 Thank you for being my friends and happy new year!
 

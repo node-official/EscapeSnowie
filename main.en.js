@@ -3,7 +3,7 @@
 const GAME_TITLE = 'Escape Snowie!';
 const GAME_COPYRIGHT = '© Node, 2024. All rights reserved.';
 
-const LAST_RELEASE_DATE = 'December 22, 2024 y.';
+const LAST_RELEASE_DATE = 'December 25, 2024 y.';
 const LAST_RELEASE_VERSION = '1.0.3';
 
 const SNOWIE_TEXTURE_NAMES = [

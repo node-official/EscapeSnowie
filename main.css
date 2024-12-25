@@ -3,7 +3,7 @@
 :root {
     color-scheme: dark;
 
-    --menico-ui--background: #0f0f0f; /* #0f0f0f */
+    --menico-ui--background: #0f0f0f;
     --menico-ui--text: #ececec;
 
     --menico-ui--accent: #257f5f;
@@ -39,17 +39,8 @@ body {
     color: var(--menico-ui--text);
 }
 
-#rootLayout {}
-
 .iSnowie {
-	position: absolute;
-	
-	inset: 0;
-	
-    width: calc(100% - 500px);
-    height: 100%;
-	
-	/*pointer-events: none;*/
-	
-	cursor: crosshair;
+    display: block;
+
+    cursor: crosshair;
 }

@@ -79,7 +79,7 @@ let registedButtons = {};
 
 let resourceCache = {};
 
-// Adding `window.requestAnimationFrame()` support for must browsers.
+// Adding `window.requestAnimationFrame()` support for most browsers.
 const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
 window.requestAnimationFrame = requestAnimationFrame;
@@ -119,8 +119,8 @@ function RegisterTimers() {
         if(timeRemaining <= 0) {
             escapedSnowiesTotal += escapedSnowies;
             
-            // Added to the title for short period of time.
-            homeWindow_Layer.title = `Game over. Snowies escaped: ${escapedSnowiesTotal}.`;
+            // This actually looks better than window title. (also freezing the game if shown)
+            alert(`GAME OVER. Snowies escaped: ${escapedSnowiesTotal}.`);
             
             escapedSnowies = 0;
             escapedSnowiesTotal = 0;
@@ -228,13 +228,12 @@ class TextLayer extends Layer {
             DrawText(`Developers: Node & Minley. Latest release date: ${LAST_RELEASE_DATE} (v${LAST_RELEASE_VERSION})`, 30, 30 + 32 + 30, 14);
             DrawText(GAME_COPYRIGHT, 24, canvas.height - 14 - 24, 14);
             
-            //DrawText(`Нажмите Пробел чтобы начать играть.`, 30, canvas.height / 1.25);
-            
             return;
         }
         
         if(isGamePaused) {
             DrawText('Game paused.', 24, canvas.height - 14 - 24, 14);
+
             DrawText('Press Escape to continue.', 24, canvas.height - 14 - 24 - 14 - 24, 14, 'Consolas', '#929292');
             DrawText('Press Tab to select texture pack.', 24, canvas.height - 14 - 24 - 14 - 24 - 14 - 24, 14, 'Consolas', '#929292');
             DrawText('Press Enter to exit the game.', 24, canvas.height - 14 - 24 - 14 - 24 - 14 - 24, 14 - 24 - 14, 'Consolas', '#929292');

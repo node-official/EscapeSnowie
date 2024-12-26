@@ -3,8 +3,8 @@
 const GAME_TITLE = 'Escape Snowie!';
 const GAME_COPYRIGHT = '© Node, 2024. All rights reserved.';
 
-const LAST_RELEASE_DATE = 'December 25, 2024 y.';
-const LAST_RELEASE_VERSION = '1.0.3';
+const LAST_RELEASE_DATE = 'December 26, 2024 y.';
+const LAST_RELEASE_VERSION = '1.0.4';
 
 const SNOWIE_TEXTURE_NAMES = [
     'Snowie Default',
@@ -12,6 +12,8 @@ const SNOWIE_TEXTURE_NAMES = [
     'Esherton (Gift Pack)',
     'Epic_Fluffy [Unavailable]',
     'NiNiTaDa (Gift Pack)',
+    'amicus_l (Gift Pack)',
+    'VodeezAku (Gift Pack)',
 ];
 
 const SNOWIE_TEXTURE_PATHS = [
@@ -39,6 +41,16 @@ const SNOWIE_TEXTURE_PATHS = [
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_1.png?raw=true',
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_2.png?raw=true',
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_3.png?raw=true'
+    ],
+    [   // amicus_l Textures
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true'
+    ],
+    [   // VodeezAku Textures
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true'
     ],
 ];
 
@@ -107,7 +119,8 @@ function RegisterTimers() {
         if(timeRemaining <= 0) {
             escapedSnowiesTotal += escapedSnowies;
             
-            //homeWindow_Layer.title = `Game over. Snowies escaped: ${escapedSnowiesTotal}.`;
+            // Added to the title for short period of time.
+            homeWindow_Layer.title = `Game over. Snowies escaped: ${escapedSnowiesTotal}.`;
             
             escapedSnowies = 0;
             escapedSnowiesTotal = 0;

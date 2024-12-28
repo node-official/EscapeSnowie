@@ -3,14 +3,14 @@
 const GAME_TITLE = 'Escape Snowie!';
 const GAME_COPYRIGHT = '© Node, 2024. All rights reserved.';
 
-const LAST_RELEASE_DATE = 'December 26, 2024 y.';
-const LAST_RELEASE_VERSION = '1.0.4';
+const LAST_RELEASE_DATE = 'December 28, 2024 y.';
+const LAST_RELEASE_VERSION = '1.0.5';
 
 const SNOWIE_TEXTURE_NAMES = [
     'Snowie Default',
     'Woki (Gift Pack)',
     'Esherton (Gift Pack)',
-    'Epic_Fluffy [Unavailable]',
+    'Epic_Fluffy (Gift Pack)',
     'NiNiTaDa (Gift Pack)',
     'amicus_l (Gift Pack)',
     'VodeezAku (Gift Pack)',
@@ -34,8 +34,8 @@ const SNOWIE_TEXTURE_PATHS = [
     ],
     [   // Epic_Fluffy (Not Ready) Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true'
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_2.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_3.png?raw=true'
     ],
     [   // NiNiTaDa Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_1.png?raw=true',
@@ -44,13 +44,13 @@ const SNOWIE_TEXTURE_PATHS = [
     ],
     [   // amicus_l Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_1.png?raw=true'
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_2.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/5/Snow_3.png?raw=true'
     ],
     [   // VodeezAku Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_1.png?raw=true'
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_2.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/6/Snow_3.png?raw=true'
     ],
 ];
 
@@ -63,6 +63,7 @@ let mouseX = 0, mouseY = 0;
 
 let isGameInited = false;
 let isGamePaused = false;
+let isGameOver = false;
 
 let currentLevel = 0;
 
@@ -120,10 +121,10 @@ function RegisterTimers() {
             escapedSnowiesTotal += escapedSnowies;
             
             // This actually looks better than window title. (also freezing the game if shown)
-            alert(`GAME OVER. Snowies escaped: ${escapedSnowiesTotal}.`);
+            //alert(`GAME OVER. Snowies escaped: ${escapedSnowiesTotal}.`);
             
             escapedSnowies = 0;
-            escapedSnowiesTotal = 0;
+            //escapedSnowiesTotal = 0;
             
             timeRemaining = 70;
             impulseCouldown = 40;
@@ -656,6 +657,12 @@ class Home_Window extends Layer {
             
             //DrawText(`Your latest saved progress is: ${escapedSnowiesTotal} Snowies escaped totally.`, this.x + 16, this.latestLineY, 14, 'Lucida Console');
         }
+
+        if(isGameOver) {
+            this.latestLineY += 20;
+
+            DrawText(`The game is over. You totally saved ${escapedSnowiesTotal} snowies.`, this.x + 32, this.latestLineY, 14, 'Lucida Console');
+        }
         
         this.latestLineY = this.y + 48;
     }
@@ -902,6 +909,8 @@ document.addEventListener('keydown', e => {
         e.preventDefault();
         
         if(!isGameInited) isGameInited = true;
+
+        escapedSnowiesTotal = 0;
     }
     
     if(e.code === 'ArrowUp') {

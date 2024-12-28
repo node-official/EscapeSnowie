@@ -2,13 +2,12 @@
 Escape Snowie!
 
 : INFO
-Latest release: 1.0.4
+Latest release: 1.0.5
 Developers: Node & Minley
 
 : CHANGES
-- Added gift textures for amicus_l and VodeezAku.
-- Reformatted ReadMe.txt
-- Small typo fixes.
+- Finally added textures for Epic_Fluffy snowies.
+- Small fixes.
 
 : CREDITS
 Me on Telegram: https://t.me/node_off

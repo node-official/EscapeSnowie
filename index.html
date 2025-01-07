@@ -10,8 +10,32 @@
     </head>
     <body>
         <div id="rootLayout">
+            <div class="windows" id="windows">
+                <div class="HomeWindow FloatWindow" id="HomeWindow">
+                    <h2>Escape Snowie!</h2>
+                    <p id="releaseData">Loading...</p>
+                    <div class="buttonList">
+                        <button onclick="Play();">Play</button>
+                        <button>Levels</button>
+                        <button onclick="openShop()">Shop</button>
+                        <button>Settings</button>
+                    </div>
+                    <p>Copyright (c) 2025, Node. All rights reserved.</p>
+                </div>
+                <div class="PerkSelection FloatWindow" id="PerkSelection">
+                    <p class="currentBalance" id="currentPointsBalance">You have: 0 Points</p>
+                    <p class="sectionName">Textures</p>
+                    <div class="Grid" id="itemList"></div>
+                </div>
+                <div class="ActionWindow FloatWindow" id="actionWindow">
+                    <h2 id="ActionTitle">No data.</h2>
+                    <img src="" alt="Texture Preview" id="texturePreview">
+                    <button id="ActionDo_Button">Select</button>
+                    <p class="trademarkCopyright">All rights reserved. All images are the property of their respective owners in the United States and other countries.</p>
+                </div>
+            </div>
             <canvas class="iSnowie" id="iSnowie"></canvas>
         </div>
-        <script type="module" src="main.en.js"></script>
+        <script type="text/javascript" src="main.en.js"></script>
     </body>
 </html>

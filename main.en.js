@@ -23,9 +23,9 @@ const SHOP_ITEMS = [
         Callback: () => { selectedSnowieSkin = 2; localStorage.setItem('selectedSnowieSkin', 2); }
     },
     {
-        Title: 'Epic Fluffy Textures',
-        Price: 0,
-        Callback: () => { selectedSnowieSkin = 3; localStorage.setItem('selectedSnowieSkin', 3); }
+        Title: 'Epic Fluffy Textures (Banned)',
+        Price: 9999999999,
+        Callback: () => { alert("Texture Pack banned.") }
     },
     {
         Title: 'NiNiTaDa Textures',
@@ -53,7 +53,6 @@ const SNOWIE_TEXTURE_NAMES = [
     'Snowie Default',
     'i_Woki (Gift Pack)',
     'Esherton (Gift Pack)',
-    'Epic_Fluffy (Gift Pack)',
     'NiNiTaDa (Gift Pack)',
     'amicus_l (Gift Pack)',
     'VodeezAku (Gift Pack)',
@@ -76,9 +75,9 @@ const SNOWIE_TEXTURE_PATHS = [
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/2/Snow_1.png?raw=true'
     ],
     [   // Epic_Fluffy Textures
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_2.png?raw=true',
-        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_3.png?raw=true'
+        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
+        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_2.png?raw=true',
+        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_3.png?raw=true'
     ],
     [   // NiNiTaDa Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_1.png?raw=true',

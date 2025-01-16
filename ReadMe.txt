@@ -21,4 +21,4 @@ Me on Twitch: https://twitch.tv/node_off
 Thank you for being my friends and happy new year!
 
 
-Copyright Node, 2025. All rights reserved.
+Copyright (c) 2025, Node. All rights reserved.

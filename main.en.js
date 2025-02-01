@@ -3,8 +3,8 @@
 const GAME_TITLE = 'Escape Snowie!';
 const GAME_COPYRIGHT = '© Node, 2024. All rights reserved.';
 
-const LAST_RELEASE_DATE = 'January 7, 2025 y.';
-const LAST_RELEASE_VERSION = '1.0.6';
+const LAST_RELEASE_DATE = 'February 1, 2025 y.';
+const LAST_RELEASE_VERSION = '1.0.7';
 
 const SHOP_ITEMS = [
     {
@@ -22,8 +22,8 @@ const SHOP_ITEMS = [
         Price: 0,
         Callback: () => { selectedSnowieSkin = 2; localStorage.setItem('selectedSnowieSkin', 2); }
     },
-    {
-        Title: 'Epic Fluffy Textures (Banned)',
+    {   // Banned
+        Title: 'Epic Fluffy Textures',
         Price: 9999999999,
         Callback: () => { alert("Texture Pack banned.") }
     },
@@ -99,7 +99,6 @@ const SNOWIE_TEXTURE_PATHS = [
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/7/Snow_2.png?raw=true',
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/7/Snow_3.png?raw=true'
     ],
-    // You need to add HighCloudBuster textures for fun.
 ];
 
 const texturePreview = document.getElementById('texturePreview');
@@ -139,9 +138,9 @@ function initAudio() {
     lowPassFilter.type = 'lowpass';
     lowPassFilter.frequency.setValueAtTime(24000, audioContext.currentTime);
 
-    loadAudio('Untitled.wav').then(() => {
+    /*loadAudio('Untitled.wav').then(() => {
         audioSource.start(0);
-    });
+    });*/
 }
 
 // -- Audio System
@@ -169,7 +168,7 @@ let escapedSnowiesTotal = 0;
 let timeRemaining = 70;
 let impulseCouldown = 40; // 0
 
-let registedButtons = {};
+//let registedButtons = {};
 
 let resourceCache = {};
 
@@ -265,61 +264,6 @@ class Layer {
     }
 }
 
-class Button {
-    buttonText = 'Button';
-    
-    x = 0;
-    y = 0;
-    
-    width = 0;
-    height = 0;
-    
-    buttonBoundingBox = null;
-    
-    clickCallback = null;
-    
-    constructor(buttonText, x, y, width, height, clickCallback = null) {
-        this.buttonText = buttonText;
-        
-        this.x = x;
-        this.y = y;
-        
-        this.width = width;
-        this.height = height;
-        
-        this.buttonBoundingBox = { x: this.x, y: this.y, width: this.width, height: this.height };
-        
-        this.clickCallback = clickCallback;
-        
-        registedButtons[this.buttonText] = this;
-    }
-    
-    UpdatePosition(x, y) {
-        this.x = x;
-        this.y = y;
-        
-        this.UpdateBoundingBox();
-    }
-    
-    UpdateBoundingBox() {
-        this.buttonBoundingBox = { x: this.x, y: this.y, width: this.width, height: this.height };
-    }
-    
-    Draw() {
-        // Write a Draw() logic for button.
-    }
-    
-    CheckForClick(mouseX, mouseY) {
-        if(this.isInsideBoundingBox(mouseX, mouseY)) {
-            this.clickCallback();
-        }
-    }
-    
-    isInsideBoundingBox(mouseX, mouseY) {
-        return mouseX >= this.buttonBoundingBox.x && mouseX <= this.buttonBoundingBox.x + this.buttonBoundingBox.width && mouseY >= this.buttonBoundingBox.y && mouseY <= this.buttonBoundingBox.y + this.buttonBoundingBox.height;
-    }
-}
-
 class ImpulseInfoLayer extends Layer {
     Draw() {
         if(!isGameInited || isGamePaused) return;
@@ -355,91 +299,6 @@ class TextLayer extends Layer {
             //DrawText(`Snowies escaped: ${escapedSnowies}/${snowieLayer.flakeCount}, Time remaining: ${timeRemaining} sec.`, 24, canvas.height - 14 - 24, 14);
             DrawText(`Snowies escaped: ${escapedSnowies}/${snowieLayer.flakeCount}, Points balance: ${currentPoints}`, 24, canvas.height - 14 - 24, 14);
         }
-    }
-}
-
-class EscapeCircleLayer extends Layer {
-    initialRadius = 200;
-    
-    currentRadius = this.initialRadius;
-    
-    centerX;
-    centerY;
-    
-    isUsed = false;
-    
-    InitCircle() {
-        this.centerX = Math.random() * canvas.width;
-        this.centerY = Math.random() * canvas.height;
-        
-        this.isUsed = true;
-    }
-    
-    Draw() {
-        if(!this.isUsed) return;
-    }
-    
-    SnowieIn() {}
-}
-
-class SnowieDangerLayer extends Layer {
-    startX = 0;
-    startY = 0;
-    
-    endX = 0;
-    endY = 0;
-    
-    rayLength = 250;
-    
-    Init() {
-        this.UpdatePosition();
-        
-        this._angle = 0;
-        
-        setInterval(() => {
-            if(isGameInited && !isGamePaused) {
-                snowieLayer.SpawnFlakes();
-            }
-        }, 500);
-    }
-    
-    UpdatePosition() {
-        this.startX = canvas.width / 2;
-        this.startY = canvas.height / 2;
-    }
-    
-    Draw() {
-        this._angle += 0.01;
-        
-        this.endX = this.startX + this.rayLength * Math.cos(this._angle);
-        this.endY = this.startY + this.rayLength * Math.sin(this._angle);
-        
-        this.DrawCircleStroke();
-        
-        this.DrawLine();
-    }
-    
-    DrawLine() {
-        ctx.strokeStyle = 'rgba(0, 255, 255, 0.5)';
-        ctx.lineWidth = 2;
-        
-        ctx.beginPath();
-        
-        ctx.moveTo(this.startX, this.startY);
-        ctx.lineTo(this.endX, this.endY);
-        
-        ctx.stroke();
-    }
-    
-    DrawCircleStroke() {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.lineWidth = 1;
-        
-        ctx.beginPath();
-        
-        ctx.arc(this.startX, this.startY, this.rayLength, 0, Math.PI * 2);
-        
-        ctx.stroke();
     }
 }
 
@@ -535,72 +394,6 @@ class SnowieLayer extends Layer {
             opacity: Math.random() * 0.05 + 0.4,
             textureId: Math.floor(Math.random() * 3)// + 1
         };
-    }
-    
-    SpawnFlakes() {
-        // Removed logic for Snowie Spawn Ray.
-        //if(currentLevel < 5) return;
-        
-        if(this.spawnedFlakes >= this.flakeCount) return;
-        
-        let generatedFlakes = [];
-        
-        function SpawnCreateFlake() {
-            return {
-                specialSnowie: setTrueWithChance(0.03),
-                speed: 0,
-                velY: 0,
-                velX: 0,
-                x: snowieDangerLayer.endX,
-                y: snowieDangerLayer.endY,
-                stepSize: Math.random() / 48,
-                step: 0,
-                opacity: Math.random() * 0.05 + 0.4,
-                textureId: Math.floor(Math.random() * 3)// + 1
-            };
-        }
-        
-        function GenerateDirection() {
-            const angle = Math.random() * 2 * Math.PI;
-            
-            const dx = 250 * Math.cos(angle);
-            const dy = 250 * Math.sin(angle);
-            
-            return { dx, dy };
-        }
-        
-        function ApplyPhysicsToAll() {
-            for(let flake of generatedFlakes) {
-                const flakeDirection = GenerateDirection();
-                
-                const dx = flakeDirection.dx;
-                const dy = flakeDirection.dy;
-                
-                const distSquared = dx * dx + dy * dy;
-                
-                const dist = Math.sqrt(distSquared);
-                
-                const xcomp = dx / dist, ycomp = dy / dist;
-                
-                flake.velX += 2.2 * xcomp;
-                flake.velY += 2.2 * ycomp;
-            }
-        }
-        
-        let requiredFlakes = this.flakeCount;
-        let spawnedFlakes = this.spawnedFlakes;
-        
-        let flakesToPush = Math.min(20, requiredFlakes - spawnedFlakes);
-        
-        for(let i = 0; i < flakesToPush; i++) {
-            generatedFlakes.push(SpawnCreateFlake());
-        }
-        
-        ApplyPhysicsToAll();
-        
-        snowieLayer.flakes.push(...generatedFlakes);
-        
-        this.spawnedFlakes += flakesToPush;
     }
     
     ResetFlake(flake) {
@@ -714,149 +507,10 @@ class SnowieLayer extends Layer {
     }
 }
 
-class Home_Window extends Layer {
-    rectWidth = 750;
-    rectHeight = 500;
-    
-    x = 0;
-    y = 0;
-    
-    textLines = [
-        'Change logs: Available in the Changes.txt',
-        '',
-        'Me on Discord: https://discord.com/LINK_IS_NOT_CREATED',
-        'Me on Twicth: https://twitch.tv/node_off',
-        'Me on Telegram: https://t.me/node_off',
-        '',
-        '♥ Thank you all, for everything!',
-        '',
-        'Press Tab to select texture pack.',
-        'Press Space to start.'
-    ];
-    
-    title = '';
-    
-    constructor() {
-        super();
-        
-        this.UpdatePosition();
-    }
-    
-    UpdatePosition() {
-        this.x = canvas.width / 2 - this.rectWidth / 2;
-        this.y = canvas.height / 2 - this.rectHeight / 2;
-    }
-    
-    DrawWindowRect() {
-        ctx.fillStyle = '#141414';
-        
-        ctx.strokeStyle = '#282828';
-        ctx.lineWidth = 1;
-        
-        ctx.rect(this.x, this.y, this.rectWidth, this.rectHeight);
-        
-        ctx.fill();
-        ctx.stroke();
-    }
-    
-    Draw() {
-        // Window
-        this.DrawWindowRect();
-        
-        // Title
-        DrawText(this.title, this.x + 16, this.y + 16, 14, 'Lucida Console');
-        
-        this.latestLineY = this.y + 48;
-        
-        this.textLines.forEach(textLine => {
-            DrawText(textLine, this.x + 16, this.latestLineY, 14, 'Lucida Console');
-            
-            this.latestLineY += 20;
-        });
-
-        if(false) {
-            this.latestLineY += 20;
-
-            DrawText(`The game is over. You totally saved ${escapedSnowiesTotal} snowies.`, this.x + 32, this.latestLineY, 14, 'Lucida Console');
-        }
-        
-        this.latestLineY = this.y + 48;
-    }
-}
-
-class SkinSelection_Window extends Layer {
-    rectWidth = 750;
-    rectHeight = 500;
-    
-    x = 0;
-    y = 0;
-    
-    title = '';
-    
-    isTextureSelection = false;
-    
-    constructor() {
-        super();
-        
-        this.UpdatePosition();
-    }
-    
-    UpdatePosition() {
-        this.x = canvas.width / 2 - this.rectWidth / 2;
-        this.y = canvas.height / 2 - this.rectHeight / 2;
-    }
-    
-    DrawWindowRect() {
-        ctx.fillStyle = '#141414';
-        
-        ctx.strokeStyle = '#282828';
-        ctx.lineWidth = 1;
-        
-        ctx.rect(this.x, this.y, this.rectWidth, this.rectHeight);
-        
-        ctx.fill();
-        ctx.stroke();
-    }
-    
-    Draw() {
-        // Window
-        this.DrawWindowRect();
-        
-        // Title
-        DrawText(this.title, this.x + 16, this.y + 16, 14, 'Lucida Console');
-        
-        this.latestLineY = this.y + 48;
-        
-        SNOWIE_TEXTURE_NAMES.forEach((textLine, i) => {
-            this.DrawOptionLine(textLine, selectedSnowieSkin === i);
-        });
-        
-        this.latestLineY += 20;
-        
-        DrawText('Press Enter to save and exit.', this.x + 16, this.latestLineY, 14, 'Lucida Console');
-        
-        this.latestLineY = this.y + 48;
-    }
-    
-    DrawOptionLine(textValue, isSelected = false) {
-        DrawText(isSelected ? `> ${textValue}` : `- ${textValue}`, this.x + 16, this.latestLineY, 14, 'Lucida Console', isSelected ? 'rgba(176, 229, 245, 1)' : '#fff');
-        
-        this.latestLineY += 20;
-    }
-}
-
 class RenderLayer {
     Draw() {
         if(!isGameInited) {
             snowiePausedLayer.Draw();
-            
-            if(skinSelectionWindow_Layer.isTextureSelection) {
-                //skinSelectionWindow_Layer.Draw();
-                
-                return;
-            }
-            
-            //homeWindow_Layer.Draw();
             
             return;
         }
@@ -865,10 +519,6 @@ class RenderLayer {
         
         //snowieDangerLayer.Draw(); // Removed.
         snowieLayer.Draw();
-        
-        if(skinSelectionWindow_Layer.isTextureSelection) {
-            skinSelectionWindow_Layer.Draw();
-        }
     }
 }
 
@@ -930,12 +580,6 @@ let snowiePausedLayer = new SnowiePausedLayer();
 let snowieLayer = new SnowieLayer();
 
 let textLayer = new TextLayer();
-
-let snowieDangerLayer = new SnowieDangerLayer();
-
-let homeWindow_Layer = new Home_Window();
-
-let skinSelectionWindow_Layer = new SkinSelection_Window();
 
 const renderLayer = new RenderLayer();
 
@@ -1028,9 +672,6 @@ document.addEventListener('keydown', e => {
         
         if(isGameInited) applyBlurEffect(isGamePaused);
         
-        //skinSelectionWindow_Layer.isTextureSelection = false;
-        //selectedSnowieSkin = savedSnowieSkin;
-        
         if(isGameInited)
             document.getElementById('windows').classList.add('d-none');
         else
@@ -1043,23 +684,7 @@ document.addEventListener('keydown', e => {
     if(e.code === 'Space') {
         e.preventDefault();
         
-        if(!isGameInited) isGameInited = true;
-    }
-    
-    if(e.code === 'ArrowUp') {
-        if(skinSelectionWindow_Layer.isTextureSelection) {
-            e.preventDefault();
-            
-            if(selectedSnowieSkin > 0) selectedSnowieSkin--;
-        }
-    }
-    
-    if(e.code === 'ArrowDown') {
-        if(skinSelectionWindow_Layer.isTextureSelection) {
-            e.preventDefault();
-            
-            if(selectedSnowieSkin < SNOWIE_TEXTURE_PATHS.length - 1) selectedSnowieSkin++;
-        }
+        //if(!isGameInited) isGameInited = true;
     }
     
     if(e.code === 'Enter') {
@@ -1071,12 +696,6 @@ document.addEventListener('keydown', e => {
             return;
         }
         
-        if(skinSelectionWindow_Layer.isTextureSelection) {
-            e.preventDefault();
-            
-            skinSelectionWindow_Layer.isTextureSelection = false;
-            savedSnowieSkin = selectedSnowieSkin;
-        }
     }
     
     if(e.code === 'Tab') {
@@ -1109,7 +728,7 @@ function Play() {
     document.getElementById('PerkSelection').classList.remove('isOpen');
     document.getElementById('actionWindow').classList.remove('isOpen');
     
-    initAudio();
+    //initAudio(); // Removed background music until small improvements.
     
     if(!isGameInited) isGameInited = true;
 }

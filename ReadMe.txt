@@ -2,16 +2,11 @@
 Escape Snowie!
 
 : INFO
-Latest release: 1.0.6
+Latest release: 1.0.7
 Developers: Node & Minley
 
 : CHANGES
-- Updated UI system.
-- Added textures for DrOtter. (https://www.twitch.tv/DrOtter3000)
-- Added shop (Updated texture selection menu).
-- Added background music.
-- Added `points`, can be obtained from a random `special` snowie.
-- A lot of code changes...
+- Background music disabled for small updates.
 
 : CREDITS
 Me on Telegram: https://t.me/node_off

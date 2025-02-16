@@ -2,11 +2,11 @@
 Escape Snowie!
 
 : INFO
-Latest release: 1.0.7
-Developers: Node & Minley
+Latest release: 1.0.8
+Developers: Node
 
 : CHANGES
-- Background music disabled for small updates.
+- Final release changes.
 
 : CREDITS
 Me on Telegram: https://t.me/node_off

@@ -1,10 +1,10 @@
 'use strict';
 
 const GAME_TITLE = 'Escape Snowie!';
-const GAME_COPYRIGHT = '© Node, 2024. All rights reserved.';
+const GAME_COPYRIGHT = '© Node, 2024–2025. All rights reserved.';
 
-const LAST_RELEASE_DATE = 'February 1, 2025 y.';
-const LAST_RELEASE_VERSION = '1.0.7';
+const LAST_RELEASE_DATE = 'February 16, 2025 y.';
+const LAST_RELEASE_VERSION = '1.0.8';
 
 const SHOP_ITEMS = [
     {
@@ -22,10 +22,10 @@ const SHOP_ITEMS = [
         Price: 0,
         Callback: () => { selectedSnowieSkin = 2; localStorage.setItem('selectedSnowieSkin', 2); }
     },
-    {   // Banned
+    {
         Title: 'Epic Fluffy Textures',
-        Price: 9999999999,
-        Callback: () => { alert("Texture Pack banned.") }
+        Price: 0,
+        Callback: () => { selectedSnowieSkin = 3; localStorage.setItem('selectedSnowieSkin', 3); }
     },
     {
         Title: 'NiNiTaDa Textures',
@@ -49,15 +49,6 @@ const SHOP_ITEMS = [
     },
 ];
 
-const SNOWIE_TEXTURE_NAMES = [
-    'Snowie Default',
-    'i_Woki (Gift Pack)',
-    'Esherton (Gift Pack)',
-    'NiNiTaDa (Gift Pack)',
-    'amicus_l (Gift Pack)',
-    'VodeezAku (Gift Pack)',
-];
-
 const SNOWIE_TEXTURE_PATHS = [
     [   // Default Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/0/Snow_1.png?raw=true',
@@ -75,9 +66,9 @@ const SNOWIE_TEXTURE_PATHS = [
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/2/Snow_1.png?raw=true'
     ],
     [   // Epic_Fluffy Textures
-        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
-        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_2.png?raw=true',
-        //'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_3.png?raw=true'
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_1.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_2.png?raw=true',
+        'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/3/Snow_3.png?raw=true'
     ],
     [   // NiNiTaDa Textures
         'https://github.com/node-official/EscapeSnowie_Textures/blob/main/Snowie/4/Snow_1.png?raw=true',
@@ -113,11 +104,15 @@ async function loadAudio(url) {
     const response = await fetch(url);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
     audioSource = audioContext.createBufferSource();
     audioSource.loop = true;
     audioSource.buffer = audioBuffer;
+
     audioSource.connect(lowPassFilter);
+
     lowPassFilter.connect(gainNode);
+
     gainNode.connect(audioContext.destination);
 }
 
@@ -133,14 +128,16 @@ function applyBlurEffect(isPaused) {
 
 function initAudio() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
     gainNode = audioContext.createGain();
+
     lowPassFilter = audioContext.createBiquadFilter();
     lowPassFilter.type = 'lowpass';
     lowPassFilter.frequency.setValueAtTime(24000, audioContext.currentTime);
 
-    /*loadAudio('Untitled.wav').then(() => {
+    loadAudio('Untitled.wav').then(() => {
         audioSource.start(0);
-    });*/
+    });
 }
 
 // -- Audio System
@@ -168,8 +165,6 @@ let escapedSnowiesTotal = 0;
 let timeRemaining = 70;
 let impulseCouldown = 40; // 0
 
-//let registedButtons = {};
-
 let resourceCache = {};
 
 // Adding `window.requestAnimationFrame()` support for most browsers.
@@ -188,11 +183,6 @@ function ReCalculateCanvasSize() {
     canvas.height = window.innerHeight;
     
     canvasRect = canvas.getBoundingClientRect();
-    
-    homeWindow_Layer.UpdatePosition();
-    skinSelectionWindow_Layer.UpdatePosition();
-    
-    snowieDangerLayer.UpdatePosition();
 }
 
 function ReduceImpulseCouldown(value) {
@@ -228,7 +218,6 @@ function ResetGame() {
     
     // Fix
     document.getElementById('windows').classList.remove('d-none');
-    
     document.getElementById('HomeWindow').classList.remove('isClosed');
 }
 
@@ -241,9 +230,7 @@ function setTrueWithChance(chance) {
 function RegisterTimers() {
     setInterval(() => {
         if(!isGameInited || isGamePaused) return;
-        
-        //timeRemaining--; // Disabled for Release.
-        
+
         ReduceImpulseCouldown(1);
         
         if(timeRemaining <= 0) {
@@ -278,15 +265,6 @@ class ImpulseInfoLayer extends Layer {
 
 class TextLayer extends Layer {
     Draw() {
-        //DrawText(GAME_TITLE, 30, 30, 32);
-        
-        if(!isGameInited) {
-            //DrawText(`Developers: Node & Minley. Latest release date: ${LAST_RELEASE_DATE} (v${LAST_RELEASE_VERSION})`, 30, 30 + 32 + 30, 14);
-            //DrawText(GAME_COPYRIGHT, 24, canvas.height - 14 - 24, 14);
-            
-            return;
-        }
-        
         if(isGamePaused) {
             DrawText('Game paused.', 24, canvas.height - 14 - 24, 14);
 
@@ -296,7 +274,6 @@ class TextLayer extends Layer {
         }
         
         if(isGameInited && !isGamePaused) {
-            //DrawText(`Snowies escaped: ${escapedSnowies}/${snowieLayer.flakeCount}, Time remaining: ${timeRemaining} sec.`, 24, canvas.height - 14 - 24, 14);
             DrawText(`Snowies escaped: ${escapedSnowies}/${snowieLayer.flakeCount}, Points balance: ${currentPoints}`, 24, canvas.height - 14 - 24, 14);
         }
     }
@@ -304,7 +281,7 @@ class TextLayer extends Layer {
 
 class SnowiePausedLayer extends Layer {
     flakes = [];
-    flakeCount = 75; // By default: 75 - light snow.
+    flakeCount = 75;
     
     InitFlakes() {
         for(let i = 0; i < this.flakeCount; i++) {
@@ -322,7 +299,7 @@ class SnowiePausedLayer extends Layer {
             stepSize: Math.random() / 48,
             step: 0,
             opacity: Math.random() * 0.05 + 0.4,
-            textureId: Math.floor(Math.random() * 3)// + 1
+            textureId: Math.floor(Math.random() * 3)
         };
     }
     
@@ -356,7 +333,6 @@ class SnowiePausedLayer extends Layer {
             
             let texturePath = SNOWIE_TEXTURE_PATHS[selectedSnowieSkin][flake.textureId];
             
-            //DrawImage(`/assets/images/Snowie/${selectedSnowieSkin}/Snow_${flake.textureId}.png`, flake.x - 4.5, flake.y - 4.5, flake.opacity);
             DrawImage(texturePath, flake.x - 4.5, flake.y - 4.5, flake.opacity);
         }
     }
@@ -374,8 +350,6 @@ class SnowieLayer extends Layer {
     spawnedFlakes = 0;
     
     InitFlakes() {
-        //if(currentLevel >= 5) return;
-        
         for(let i = 0; i < this.flakeCount; i++) {
             this.flakes.push(this.CreateFlake());
         }
@@ -392,7 +366,7 @@ class SnowieLayer extends Layer {
             stepSize: Math.random() / 48,
             step: 0,
             opacity: Math.random() * 0.05 + 0.4,
-            textureId: Math.floor(Math.random() * 3)// + 1
+            textureId: Math.floor(Math.random() * 3)
         };
     }
     
@@ -413,8 +387,6 @@ class SnowieLayer extends Layer {
             escapedSnowiesTotal += escapedSnowies;
             
             escapedSnowies = 0;
-            
-            //currentLevel += 1;
             
             this.spawnedFlakes = 0;
             
@@ -474,7 +446,6 @@ class SnowieLayer extends Layer {
                 
                 let texturePath = SNOWIE_TEXTURE_PATHS[selectedSnowieSkin][flake.textureId];
                 
-                //DrawImage(`/assets/images/Snowie/${selectedSnowieSkin}/Snow_${flake.textureId}.png`, flake.x - 4.5, flake.y - 4.5, flake.opacity);
                 DrawImage(texturePath, flake.x - 4.5, flake.y - 4.5, flake.opacity);
             }
         }
@@ -517,7 +488,6 @@ class RenderLayer {
         
         DrawGridCrosses();
         
-        //snowieDangerLayer.Draw(); // Removed.
         snowieLayer.Draw();
     }
 }
@@ -622,8 +592,6 @@ document.addEventListener('DOMContentLoaded', () => {
     snowiePausedLayer.InitFlakes();
     snowieLayer.InitFlakes();
     
-    //snowieDangerLayer.Init(); // Removed.
-    
     requestAnimationFrame(CanvasRender);
 });
 
@@ -681,14 +649,8 @@ document.addEventListener('keydown', e => {
         document.getElementById('actionWindow').classList.remove('isOpen');
     }
     
-    if(e.code === 'Space') {
-        e.preventDefault();
-        
-        //if(!isGameInited) isGameInited = true;
-    }
-    
     if(e.code === 'Enter') {
-        if(isGameInited && isGamePaused && !skinSelectionWindow_Layer.isTextureSelection) {
+        if(isGameInited && isGamePaused) {
             e.preventDefault();
             
             ResetGame();
@@ -714,8 +676,6 @@ window.addEventListener('resize', () => {
     snowiePausedLayer.ResetAllFlakes();
 });
 
-// New
-
 function openShop() {
     document.getElementById('HomeWindow').classList.add('isClosed');
     document.getElementById('PerkSelection').classList.add('isOpen');
@@ -728,7 +688,7 @@ function Play() {
     document.getElementById('PerkSelection').classList.remove('isOpen');
     document.getElementById('actionWindow').classList.remove('isOpen');
     
-    //initAudio(); // Removed background music until small improvements.
+    initAudio();
     
     if(!isGameInited) isGameInited = true;
 }
@@ -749,9 +709,6 @@ function addToItemList(title, price, callback) {
     priceElement.textContent = `Price: ${price === 0 ? 'Free' : price + ' Points'}`;
     
     itemDiv.onclick = () => {
-        //document.getElementById('ActionTitle').innerText = title;
-        //document.getElementById('actionWindow').classList.add('isOpen');
-        
         if(lastActionSelected === title) {
             document.getElementById('actionWindow').classList.toggle('isOpen');
         } else {
